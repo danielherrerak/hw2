@@ -77,7 +77,6 @@ Role.destroy_all
 
 # Generate models and tables, according to the domain model.
 # TODO!
-# rails generate model Model
 
 # Insert data into the database that reflects the sample data shown above.
 # Do not use hard-coded foreign key IDs.
@@ -167,7 +166,6 @@ new_movie.save
 movie_1 = Movie.find_by({"title" => "Batman Begins"})
 movie_2 = Movie.find_by({"title" => "The Dark Knight"})
 movie_3 = Movie.find_by({"title" => "The Dark Knight Rises"})
-
 actor_1 = Actor.find_by({"name" => "Christian Bale"})
 actor_2 = Actor.find_by({"name" => "Michael Caine"})
 actor_3 = Actor.find_by({"name" => "Liam Neeson"})
@@ -216,7 +214,6 @@ new_role.save
 
 
 # The Dark Knight
-
 new_role = Role.new
 new_role["movie_id"] = movie_2["id"] 
 new_role["actor_id"] = actor_1["id"]
@@ -250,7 +247,6 @@ new_role.save
 
 
 # The Dark Knight Rises
-
 new_role = Role.new
 new_role["movie_id"] = movie_3["id"] 
 new_role["actor_id"] = actor_1["id"]
@@ -292,7 +288,8 @@ puts ""
 # TODO!
 movies = Movie.all
 for movie in movies
-    puts "#{movie["title"]} #{movie["year_released"]} #{movie["rated"]} #{Studio.find(movie.studio_id).name}"
+    studio = Studio.find_by({"id" => movie["studio_id"]})
+    puts "#{movie["title"]} #{movie["year_released"]} #{movie["rated"]} #{studio["studio"]}"
 end
 
 
@@ -307,5 +304,7 @@ puts ""
 # TODO!
 roles = Role.all
 for role in roles
-    puts "#{Movie.find(role.movie_id).title} #{Actor.find(role.actor_id).name} #{role["character_name"]}"
+    movie = Movie.find_by({"id" => role["movie_id"]})
+    actor = Actor.find_by({"id" => role["actor_id"]})
+    puts "#{movie["title"]} #{actor["name"]} #{role["character_name"]}"
 end
